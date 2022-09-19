@@ -59,18 +59,20 @@ export default class InGame extends Phaser.Scene {
     //ep4
     nakamaListener() {
         Nakama.socket.onmatchdata = (result) => {
+            let json = new TextDecoder().decode(result.data)
+
             switch (result.op_code) {
                 case 1:
-                    this.gameStarted = true;
-                    this.setPlayerTurn(result.data)
+                    this.gameStarted = true
+                    this.setPlayerTurn(json)
                     break;
                 case 2:
                     console.log(result.data)
-                    this.updateBoard(result.data.board)
+                    this.updateBoard(json.board)
                     this.updatePlayerTurn()
                     break;
                 case 3:
-                    this.endGame(result.data)
+                    this.endGame(json)
                     break;
             }
         };
