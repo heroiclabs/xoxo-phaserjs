@@ -1,5 +1,5 @@
 {
-  "name": "svelte-app",
+  "name": "xoxo-phaserjs",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -24,7 +24,7 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
-    "@heroiclabs/nakama-js": "^2.1.5",
+    "@heroiclabs/nakama-js": "^2.4.1",
     "phaser": "^3.54.0",
     "sirv-cli": "^1.0.0",
     "uuid": "^8.3.2"
