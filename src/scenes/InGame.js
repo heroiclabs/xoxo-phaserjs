@@ -59,7 +59,8 @@ export default class InGame extends Phaser.Scene {
     //ep4
     nakamaListener() {
         Nakama.socket.onmatchdata = (result) => {
-            let json = new TextDecoder().decode(result.data)
+            const json_string = new TextDecoder().decode(result.data)
+            const json = json_string ? JSON.parse(json_string): ""
 
             switch (result.op_code) {
                 case 1:

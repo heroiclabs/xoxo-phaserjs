@@ -40,7 +40,7 @@ class Nakama {
 
     async makeMove(index) { // ep4
         var data = { "position": index };
-        await this.socket.sendMatchState(this.matchID, 4, data);
+        await this.socket.sendMatchState(this.matchID, 4, JSON.stringify(data));
         console.log("Match data sent")
     }
 }
