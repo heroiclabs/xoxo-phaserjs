@@ -36,11 +36,11 @@ export default class MainMenu extends Phaser.Scene {
         );
 
         const playBtn = this.add
-            .rectangle(CONFIG.WIDTH / 2, 625, 225, 70, 0xffca27)
+            .rectangle(CONFIG.WIDTH / 2, 600, 225, 70, 0xffca27)
             .setInteractive({ useHandCursor: true });
 
         const playBtnText = this.add
-            .text(CONFIG.WIDTH / 2, 625, "Begin", {
+            .text(CONFIG.WIDTH / 2, 600, "Find match", {
                 fontFamily: "Arial",
                 fontSize: "36px",
             })
@@ -60,5 +60,32 @@ export default class MainMenu extends Phaser.Scene {
             playBtn.setScale(1);
             playBtnText.setScale(1);
         });
+
+        const playAIBtn = this.add
+            .rectangle(CONFIG.WIDTH / 2, 680, 225, 70, 0xffca27)
+            .setInteractive({ useHandCursor: true });
+
+        const playAIBtnText = this.add
+            .text(CONFIG.WIDTH / 2, 680, "Play with AI", {
+                fontFamily: "Arial",
+                fontSize: "36px",
+            })
+            .setOrigin(0.5);
+
+        playAIBtn.on("pointerdown", () => {
+            Nakama.findMatch(true);
+            this.scene.start("in-game", true);
+        });
+
+        playAIBtn.on("pointerover", () => {
+            playAIBtn.setScale(1.1);
+            playAIBtnText.setScale(1.1);
+        });
+
+        playAIBtn.on("pointerout", () => {
+            playAIBtn.setScale(1);
+            playAIBtnText.setScale(1);
+        });
+
     }
 }

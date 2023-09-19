@@ -10,6 +10,7 @@
 		width: CONFIG.WIDTH,
 		height: CONFIG.HEIGHT,
 		backgroundColor: "#FF4C4C",
+ 		autoCenter: true,
 		scene: [MainMenu, Matchmaking, InGame],
 	};
 

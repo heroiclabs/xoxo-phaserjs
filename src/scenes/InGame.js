@@ -18,9 +18,9 @@ export default class InGame extends Phaser.Scene {
             let newImage = this.INDEX_TO_POS[index]
 
             if (element === 1) {
-                this.phaser.add.image(newImage.x, newImage.y, "O");
-            } else if (element === 2) {
                 this.phaser.add.image(newImage.x, newImage.y, "X");
+            } else if (element === 2) {
+                this.phaser.add.image(newImage.x, newImage.y, "O");
             }
         })
     }
@@ -42,8 +42,15 @@ export default class InGame extends Phaser.Scene {
             this.playerPos = 1;
             this.headerText.setText("Your turn!")
         } else {
+            this.playerPos = 2;
             this.headerText.setText("Opponents turn!")
         }
+    }
+
+    opponentLeft() {
+        this.headerText.setText("Opponent has left")
+        this.playAIBtn.setVisible(true);
+        this.playAIBtnText.setVisible(true);
     }
 
     endGame(data) {
@@ -51,6 +58,8 @@ export default class InGame extends Phaser.Scene {
 
         if (data.winner === this.playerPos) {
             this.headerText.setText("Winner!")
+        } else if(data.winner === undefined) {
+            this.headerText.setText("Tie!")
         } else {
             this.headerText.setText("You loose :(")
         }
@@ -75,6 +84,8 @@ export default class InGame extends Phaser.Scene {
                 case 3:
                     this.endGame(json)
                     break;
+                case 6:
+                    this.opponentLeft()
             }
         };
     }
@@ -224,5 +235,34 @@ export default class InGame extends Phaser.Scene {
             .on("pointerdown", () => {
                 Nakama.makeMove(8)
             });
+
+        this.playAIBtn = this.add
+            .rectangle(CONFIG.WIDTH / 2, 680, 270, 70, 0xffca27)
+            .setVisible(false)
+            .setInteractive({ useHandCursor: true });
+
+        this.playAIBtnText = this.add
+            .text(CONFIG.WIDTH / 2, 680, "Continue with AI", {
+                fontFamily: "Arial",
+                fontSize: "36px",
+            })
+            .setVisible(false)
+            .setOrigin(0.5);
+
+        this.playAIBtn.on("pointerdown", async () => {
+            await Nakama.inviteAI()
+            this.playAIBtn.setVisible(false);
+            this.playAIBtnText.setVisible(false);
+        });
+
+        this.playAIBtn.on("pointerover", () => {
+            this.playAIBtn.setScale(1.1);
+            this.playAIBtnText.setScale(1.1);
+        });
+
+        this.playAIBtn.on("pointerout", () => {
+            this.playAIBtn.setScale(1);
+            this.playAIBtnText.setScale(1);
+        });
     }
 }
