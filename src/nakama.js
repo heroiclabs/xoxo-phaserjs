@@ -29,9 +29,9 @@ class Nakama {
 
     }
 
-    async findMatch() { // ep4
+    async findMatch(ai=false) { // ep4
         const rpcid = "find_match";
-        const matches = await this.client.rpc(this.session, rpcid, {});
+        const matches = await this.client.rpc(this.session, rpcid, {ai: ai});
 
         this.matchID = matches.payload.matchIds[0]
         await this.socket.joinMatch(this.matchID);
@@ -42,6 +42,11 @@ class Nakama {
         var data = { "position": index };
         await this.socket.sendMatchState(this.matchID, 4, JSON.stringify(data));
         console.log("Match data sent")
+    }
+
+    async inviteAI() {
+        await this.socket.sendMatchState(this.matchID, 7, "");
+        console.log("AI player invited")
     }
 }
 
